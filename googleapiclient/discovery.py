@@ -27,7 +27,7 @@ __all__ = [
 
 
 # Standard library imports
-import StringIO
+from io import StringIO
 import copy
 from email.generator import Generator
 from email.mime.multipart import MIMEMultipart
@@ -39,7 +39,6 @@ import mimetypes
 import os
 import re
 import urllib
-import urlparse
 
 try:
   from urlparse import parse_qsl
@@ -205,7 +204,7 @@ def build(serviceName,
 
   try:
     service = json.loads(content)
-  except ValueError, e:
+  except ValueError:
     logger.error('Failed to parse as JSON: ' + content)
     raise InvalidJsonError()
 
@@ -329,7 +328,7 @@ def _media_size_to_long(maxSize):
     The size as an integer value.
   """
   if len(maxSize) < 2:
-    return 0L
+    return 0
   units = maxSize[-2:].upper()
   bit_shift = _MEDIA_SIZE_BIT_SHIFTS.get(units)
   if bit_shift is not None:
