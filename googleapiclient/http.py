@@ -21,7 +21,7 @@ actuall HTTP request.
 
 __author__ = 'jcgregorio@google.com (Joe Gregorio)'
 
-import StringIO
+from io import StringIO
 import base64
 import copy
 import gzip
@@ -35,7 +35,6 @@ import random
 import sys
 import time
 import urllib
-import urlparse
 import uuid
 
 from email.generator import Generator
@@ -1328,7 +1327,7 @@ class BatchHttpRequest(object):
         if resp.status >= 300:
           raise HttpError(resp, content, uri=request.uri)
         response = request.postproc(resp, content)
-      except HttpError, e:
+      except HttpError:
         exception = e
 
       if callback is not None:
